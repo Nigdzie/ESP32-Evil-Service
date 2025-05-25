@@ -26,7 +26,7 @@ Users are redirected to a page prompting them to "update their router." When a p
 
 | Main Page | Creds | Loading |
 |-----------|----------------|--------------|
-| ![](img/1.jpg) | ![](img/2.jpg) | ![](img/3.png) |
+| ![](img/1.jpg) | ![](img/2.jpg) | ![](img/3.jpg) |
 
 ---
 
