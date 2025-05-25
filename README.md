@@ -49,6 +49,6 @@ Users are redirected to a page prompting them to "update their router." When a p
 ## ✍️ Author
 
 **/D3h420/**  
-GitHub: [Your GitHub Profile](https://github.com/D3h420)
+GitHub: [D3h420](https://github.com/D3h420)
 
 ---
