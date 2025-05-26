@@ -8,6 +8,7 @@ A **captive portal project** running on an ESP32 board that simulates a **router
 
 Users are redirected to a page prompting them to "update their router." When a password is entered, it gets saved locally.
 
+The project contains files in two language versions **Polish** 🇵🇱 && **English** 🇬🇧
 ---
 
 ## ⚙️ How It Works
@@ -24,9 +25,26 @@ Users are redirected to a page prompting them to "update their router." When a p
 
 ## 📸 Screenshots
 
+Router_update_ESP32_PL.ino (PL🇵🇱 version)
 | Main Page | Creds | Loading |
 |-----------|----------------|--------------|
 | ![](img/1.jpg) | ![](img/2.jpg) | ![](img/3.jpg) |
+
+---
+
+## 🛠️ Requirements
+
+- Board: **ESP32**
+ `Tools > Board > Boards Manager > esp32 by Espressif Systems`
+- IDE: Arduino IDE
+- Libraries: standard DNSServer, WiFi, WebServer, LittleFS
+
+---
+
+## 🫱🏻‍🫲🏾 Thanks
+
+- Big thanks to my `Laboratorium` boyz [Janek](https://github.com/Janek79ax) && [Lazy](https://github.com/Nigdzie). 
+- Firs inspiration: https://github.com/adamff-dev/ESP8266_WiFi_Captive_Portal_2.0
 
 ---
 
@@ -38,15 +56,7 @@ Users are redirected to a page prompting them to "update their router." When a p
 
 ---
 
-## 🛠️ Requirements
-
-- Board: **ESP32**
-- IDE: Arduino IDE or PlatformIO
-- Libraries: standard ESPAsyncWebServer, WiFi, ...
-
----
-
-## ✍️ Author
+## 🐲 Author
 
 **/D3h420/**  
 GitHub: [D3h420](https://github.com/D3h420)
