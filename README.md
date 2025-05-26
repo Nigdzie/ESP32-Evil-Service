@@ -44,7 +44,7 @@ Router_update_ESP32_PL.ino (PL🇵🇱 version)
 ## 🫱🏻‍🫲🏾 Thanks
 
 - Big thanks to my `Laboratorium` boyz [Janek](https://github.com/Janek79ax) && [Lazy](https://github.com/Nigdzie). 
-- Firs inspiration: https://github.com/adamff-dev/ESP8266_WiFi_Captive_Portal_2.0
+- First inspiration: https://github.com/adamff-dev/ESP8266_WiFi_Captive_Portal_2.0
 
 ---
 
