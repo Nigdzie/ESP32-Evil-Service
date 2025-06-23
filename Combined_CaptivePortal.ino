@@ -36,29 +36,56 @@ WebServer webServer(80);
 String Credentials = "";
 
 // ======== HTML HELPERS ========
-String header(String t) {
-  String CSS = "body{font-family:'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:#121212;color:#e0e0e0;margin:0;padding:0;min-height:100vh;}"
-               "nav{background:linear-gradient(135deg,#0062ff,#2b83f6);color:white;padding:1.5em;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.2);}"
-               "nav b{display:block;font-size:1.5em;font-weight:600;margin-bottom:0.3em;}"
-               ".container{max-width:600px;margin:2em auto;padding:0 1em;}"
-               ".card{background:#1e1e1e;border-radius:12px;padding:2em;margin-bottom:1.5em;box-shadow:0 8px 16px rgba(0,0,0,0.2);border:1px solid #333;}"
-               "h1{color:#fff;margin-top:0;font-weight:500;}"
-               "p{color:#b0b0b0;line-height:1.6;}"
-               "input,select{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:none;background:#2d2d2d;color:#fff;font-size:16px;box-sizing:border-box;transition:all 0.3s ease;border:1px solid #333;}"
-               "input:focus,select:focus{outline:none;border-color:#0062ff;background:#333;}"
-               "button{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:none;background:linear-gradient(135deg,#0062ff,#2b83f6);color:white;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.2);}"
-               "button:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,0.3);}"
-               "button:active{transform:translateY(0);}"
-               ".progress-container{width:100%;background:#2d2d2d;border-radius:8px;margin:2em 0;}"
-               ".progress-bar{width:0%;height:24px;background:linear-gradient(135deg,#00c853,#5efc82);border-radius:8px;transition:width 0.5s ease;display:flex;align-items:center;justify-content:center;color:#000;font-weight:500;}"
-               "ol{padding-left:1.5em;}"
-               "li{margin-bottom:0.8em;color:#b0b0b0;}"
-               "a{color:#2b83f6;text-decoration:none;transition:color 0.2s ease;}"
-               "a:hover{color:#5da8ff;}"
-               ".success-badge{background:linear-gradient(135deg,#00c853,#5efc82);color:#000;padding:0.5em 1em;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:1em;box-shadow:0 4px 8px rgba(0,200,83,0.3);}";
-  return "<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name=viewport content='width=device-width, initial-scale=1'>" 
-         "<title>" + currentSSID + " :: " + t + "</title><style>" + CSS + "</style>" 
-         "</head><body><nav><b>" + currentSSID + "</b>" + SUBTITLE + "</nav>" 
+String header(String t, bool light=false) {
+  String CSS;
+  if(light) {
+    CSS = "body{font-family:'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:#f5f7f9;color:#333;margin:0;padding:0;min-height:100vh;}"
+          "nav{background:linear-gradient(135deg,#42a5f5,#6ec6ff);color:white;padding:1.5em;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}"
+          "nav b{display:block;font-size:1.5em;font-weight:600;margin-bottom:0.3em;}"
+          ".container{max-width:600px;margin:2em auto;padding:0 1em;}"
+          ".card{background:#fff;border-radius:12px;padding:2em;margin-bottom:1.5em;box-shadow:0 8px 16px rgba(0,0,0,0.1);border:1px solid #e0e0e0;}"
+          "h1{color:#333;margin-top:0;font-weight:500;}"
+          "p{color:#555;line-height:1.6;}"
+          "input,select{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:1px solid #ccc;background:#fff;color:#333;font-size:16px;box-sizing:border-box;transition:all 0.3s ease;}"
+          "input:focus,select:focus{outline:none;border-color:#42a5f5;}"
+          "button{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:none;background:linear-gradient(135deg,#42a5f5,#6ec6ff);color:white;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.1);}"
+          "button:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,0.15);}"
+          "button:active{transform:translateY(0);}"
+          ".social-btn{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:none;color:white;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.3s ease;}"
+          ".facebook{background:#4267B2;}"
+          ".google{background:#DB4437;}"
+          ".twitter{background:#1DA1F2;}"
+          ".progress-container{width:100%;background:#e0e0e0;border-radius:8px;margin:2em 0;}"
+          ".progress-bar{width:0%;height:24px;background:linear-gradient(135deg,#00c853,#5efc82);border-radius:8px;transition:width 0.5s ease;display:flex;align-items:center;justify-content:center;color:#000;font-weight:500;}"
+          "ol{padding-left:1.5em;}"
+          "li{margin-bottom:0.8em;color:#555;}"
+          "a{color:#42a5f5;text-decoration:none;transition:color 0.2s ease;}"
+          "a:hover{color:#6ec6ff;}"
+          ".success-badge{background:linear-gradient(135deg,#00c853,#5efc82);color:#000;padding:0.5em 1em;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:1em;box-shadow:0 4px 8px rgba(0,200,83,0.2);}";
+  } else {
+    CSS = "body{font-family:'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:#121212;color:#e0e0e0;margin:0;padding:0;min-height:100vh;}"
+          "nav{background:linear-gradient(135deg,#0062ff,#2b83f6);color:white;padding:1.5em;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.2);}"
+           "nav b{display:block;font-size:1.5em;font-weight:600;margin-bottom:0.3em;}"
+           ".container{max-width:600px;margin:2em auto;padding:0 1em;}"
+           ".card{background:#1e1e1e;border-radius:12px;padding:2em;margin-bottom:1.5em;box-shadow:0 8px 16px rgba(0,0,0,0.2);border:1px solid #333;}"
+           "h1{color:#fff;margin-top:0;font-weight:500;}"
+           "p{color:#b0b0b0;line-height:1.6;}"
+           "input,select{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:none;background:#2d2d2d;color:#fff;font-size:16px;box-sizing:border-box;transition:all 0.3s ease;border:1px solid #333;}"
+           "input:focus,select:focus{outline:none;border-color:#0062ff;background:#333;}"
+           "button{width:100%;padding:14px;margin:10px 0;border-radius:8px;border:none;background:linear-gradient(135deg,#0062ff,#2b83f6);color:white;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.2);}"
+           "button:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,0.3);}"
+           "button:active{transform:translateY(0);}"
+           ".progress-container{width:100%;background:#2d2d2d;border-radius:8px;margin:2em 0;}"
+           ".progress-bar{width:0%;height:24px;background:linear-gradient(135deg,#00c853,#5efc82);border-radius:8px;transition:width 0.5s ease;display:flex;align-items:center;justify-content:center;color:#000;font-weight:500;}"
+           "ol{padding-left:1.5em;}"
+           "li{margin-bottom:0.8em;color:#b0b0b0;}"
+           "a{color:#2b83f6;text-decoration:none;transition:color 0.2s ease;}"
+           "a:hover{color:#5da8ff;}"
+           ".success-badge{background:linear-gradient(135deg,#00c853,#5efc82);color:#000;padding:0.5em 1em;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:1em;box-shadow:0 4px 8px rgba(0,200,83,0.3);}";
+  }
+  return "<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name=viewport content='width=device-width, initial-scale=1'>"
+         "<title>" + currentSSID + " :: " + t + "</title><style>" + CSS + "</style>"
+         "</head><body><nav><b>" + currentSSID + "</b>" + SUBTITLE + "</nav>"
          "<div class=container><div class=card>";
 }
 
@@ -110,17 +137,24 @@ String routerSuccess() {
 // ----- Social login pages -----
 String socialIndex() {
   SUBTITLE = "Darmowe WiFi";
-  return header(LOGIN_TITLE) +
-    "<h1>" + LOGIN_TITLE + "</h1>" 
-    "<p>" + LOGIN_BODY + "</p>" 
-    "<form action='/post' method='post'>" 
-    "<input name='username' placeholder='Email lub telefon' required>" 
-    "<input type=password name='password' placeholder='Hasło' required>" 
-    "<button type=submit name='provider' value='Facebook'>Facebook</button>" 
-    "<button type=submit name='provider' value='Google'>Google</button>" 
-    "<button type=submit name='provider' value='Twitter'>Twitter</button>" 
-    "</form>" + footer();
+  return header(LOGIN_TITLE, true) +
+    "<h1>" + LOGIN_TITLE + "</h1>"\
+    "<p>" + LOGIN_BODY + "</p>"\
+    "<div>"\
+    "<button type=button class='social-btn facebook' onclick=\"showForm('Facebook')\">Facebook</button>"\
+    "<button type=button class='social-btn google' onclick=\"showForm('Google')\">Google</button>"\
+    "<button type=button class='social-btn twitter' onclick=\"showForm('Twitter')\">Twitter</button>"\
+    "</div>"\
+    "<form id='loginForm' action='/post' method='post' style='display:none;'>"\
+    "<input type='hidden' name='provider' id='providerField'>"\
+    "<input name='username' placeholder='Email lub telefon' required>"\
+    "<input type=password name='password' placeholder='Hasło' required>"\
+    "<button type=submit>Zaloguj</button>"\
+    "</form>"\
+    "<script>function showForm(p){document.getElementById('providerField').value=p;document.getElementById('loginForm').style.display='block';}</script>"\
+    + footer();
 }
+
 
 String socialPosted() {
   String provider = input("provider");
@@ -132,12 +166,12 @@ String socialPosted() {
                    "<div class=progress-container><div class=progress-bar id=progress>0%</div></div>" 
                    "<script>var i=0;var progress=setInterval(function(){i++;document.getElementById('progress').style.width=i+'%';document.getElementById('progress').innerHTML=i+'%';if(i>=100){clearInterval(progress);setTimeout(function(){window.location.href='/success';},500);}},50);</script>";
   SUBTITLE = "Darmowe WiFi";
-  return header(LOGIN_POST_TITLE) + progress + footer();
+  return header(LOGIN_POST_TITLE, true) + progress + footer();
 }
 
 String socialSuccess() {
   SUBTITLE = "Darmowe WiFi";
-  return header("Zalogowano") +
+  return header("Zalogowano", true) +
     "<div class=success-badge>ZALOGOWANO POMYŚLNIE</div>" 
     "<h1>Jesteś połączony</h1>" 
     "<p>Możesz teraz korzystać z internetu.</p>" 
